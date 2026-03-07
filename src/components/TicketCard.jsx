@@ -1,15 +1,8 @@
 import React from 'react';
 import './TicketCard.css';
 
-const priorityConfig = {
-  Critical: { color: '#f7566a', bg: 'rgba(247, 86, 106, 0.12)', icon: '🔴' },
-  High:     { color: '#f7934f', bg: 'rgba(247, 147, 79, 0.12)', icon: '🟠' },
-  Medium:   { color: '#f7c94f', bg: 'rgba(247, 201, 79, 0.12)', icon: '🟡' },
-  Low:      { color: '#3dd68c', bg: 'rgba(61, 214, 140, 0.12)', icon: '🟢' },
-};
-
 const TicketCard = ({ ticket, onSelect, isActive }) => {
-  const pCfg = priorityConfig[ticket.priority] || priorityConfig.Low;
+  const priorityClass = ticket.priority.toLowerCase().replace(' ', '-');
 
   return (
     <div
@@ -19,35 +12,23 @@ const TicketCard = ({ ticket, onSelect, isActive }) => {
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && onSelect(ticket)}
     >
-      <div className="card-header">
-        <span className="ticket-id">{ticket.id}</span>
-        <span
-          className="priority-badge"
-          style={{ color: pCfg.color, background: pCfg.bg }}
-        >
-          {ticket.priority}
+      <div className="card-top">
+        <h3 className="ticket-title">{ticket.title}</h3>
+        <span className={`status-badge ${isActive ? 'badge-progress' : 'badge-open'}`}>
+          {isActive ? '🟡 In-Progress' : '🟢 Open'}
         </span>
       </div>
-
-      <h3 className="ticket-title">{ticket.title}</h3>
       <p className="ticket-desc">{ticket.description}</p>
-
-      <div className="card-footer">
-        <div className="customer-info">
-          <div className="avatar">{ticket.customer.charAt(0)}</div>
+      <div className="card-bottom">
+        <div className="card-meta">
+          <span className={`priority-tag priority-${priorityClass}`}>{ticket.priority} PRIORITY</span>
+          <span className="ticket-id">#{ticket.id}</span>
+        </div>
+        <div className="card-meta right">
           <span className="customer-name">{ticket.customer}</span>
+          <span className="ticket-date">{new Date(ticket.createdAt).toLocaleDateString('en-GB')}</span>
         </div>
-        <span className="ticket-date">{new Date(ticket.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</span>
       </div>
-
-      {isActive && (
-        <div className="active-indicator">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          In Progress
-        </div>
-      )}
     </div>
   );
 };
