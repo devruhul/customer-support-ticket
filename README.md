@@ -77,3 +77,7 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## 🔗 Submission
+- **Live Link :** [https://customer-supp0rt-ticket.netlify.app/](https://customer-supp0rt-ticket.netlify.app/)
+- **GitHub Repository:** [https://github.com/devruhul/customer-support-ticket](https://github.com/devruhul/customer-support-ticket)
